@@ -14,12 +14,14 @@ function App() {
         {id: v1(), title: "React", isDone: false},
         {id: v1(), title: "Redax", isDone: false},
     ])
-    let [filter, setFilter] = useState('All')
-
+    const [filter, setFilter] = useState('All')
 
     const deleteTask = (id: string) => {setTask(task.filter(f => f.id !== id))}
     const filterTask = (value: string) => {setFilter(value)}
     const addTask = (title:string) => {setTask([{id: v1(), title, isDone: false}, ...task])}
+    const checkedBoxStatus = (id:string, value:boolean) =>{
+        setTask(task.map(m => m.id===id? {...m, isDone:value} : m))
+    }
 
     let filterTasks = filter==='Active'? task.filter(f=>f.isDone) :
                       filter ==='Completed'? task.filter(f=>!f.isDone) :
@@ -32,6 +34,8 @@ function App() {
                       deleteTask={deleteTask}
                       filterTask={filterTask}
                       addTask={addTask}
+                      filter={filter}
+                      checkedBoxStatus={checkedBoxStatus}
             />
         </div>
     );
