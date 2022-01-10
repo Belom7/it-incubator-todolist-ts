@@ -1,5 +1,7 @@
 import React, {ChangeEvent, useState, KeyboardEvent} from "react";
 import {FilterType} from "./App";
+import cl from './ToDoList.module.css'
+import {MapTasks} from "./MapTasks";
 
 type PropsType={
     title:string
@@ -7,9 +9,11 @@ type PropsType={
     deleteTask:(id:string)=>void
     filterTask:(value:FilterType)=>void
     addTask:(title:string)=>void
+    filter:string
+    checkedBoxStatus:(id:string, value:boolean)=>void
 }
 
-type inPropsType={
+export type inPropsType={
     id: string
     title: string
     isDone: boolean
@@ -18,16 +22,25 @@ type inPropsType={
 export const ToDoList = (props:PropsType) => {
 
     const[title, setTitle] = useState('')
+    const[error, setError] = useState('')
+
 
     const onChangeHandlerInput = (event:ChangeEvent<HTMLInputElement>) => {
+        setError('')
         setTitle(event.currentTarget.value)
     }
+
     const onClickHandlerAddButton = ()=>{
+        if(title.trim()!==''){
         props.addTask(title)
         setTitle('')
+        }else{
+            setError('Вы ничего не ввели')
+        }
     }
     const onClickHandlerFilterButton = (value:FilterType)=>props.filterTask(value)
     const onKeyPressHandler = (event:KeyboardEvent<HTMLInputElement>) => {
+        // setError('')
         if(event.key === 'Enter'){
             onClickHandlerAddButton()
         }
@@ -35,6 +48,10 @@ export const ToDoList = (props:PropsType) => {
     const onClickHandlerDeleteButton = (tID:string) =>{
             props.deleteTask(tID)
     }
+    const onChangeHandlerInputStatus=(tID:string, value:boolean)=>{
+        props.checkedBoxStatus(tID, value)
+    }
+
 
     return(
         <div>
@@ -42,17 +59,16 @@ export const ToDoList = (props:PropsType) => {
             <div>
                 <input value={title} onChange={onChangeHandlerInput} onKeyPress={onKeyPressHandler}/>
                 <button onClick={onClickHandlerAddButton}>+</button>
+                {error && <div className={cl.errorMessage}>{error}</div>}
             </div>
-            <ul>
-                {props.tasks.map(t=><li key={t.id}>
-                    <button onClick={()=>onClickHandlerDeleteButton(t.id)}>x</button>
-                    <input type="checkbox" checked={t.isDone}/>
-                    <span>{t.title}</span></li>)}
-            </ul>
+            <MapTasks tasks={props.tasks}
+                      onClickHandlerDeleteButton={onClickHandlerDeleteButton}
+                      onChangeHandlerInputStatus={onChangeHandlerInputStatus}
+            />
             <div>
-                <button onClick={()=>onClickHandlerFilterButton('All')}>All</button>
-                <button onClick={()=>onClickHandlerFilterButton('Active')}>Active</button>
-                <button onClick={()=>onClickHandlerFilterButton('Completed')}>Completed</button>
+                <button className={props.filter==='All'? cl.activeFilterButton : ''} onClick={()=>onClickHandlerFilterButton('All')}>All</button>
+                <button className={props.filter==='Active'? cl.activeFilterButton : ''} onClick={()=>onClickHandlerFilterButton('Active')}>Active</button>
+                <button className={props.filter==='Completed'? cl.activeFilterButton : ''} onClick={()=>onClickHandlerFilterButton('Completed')}>Completed</button>
             </div>
         </div>
     )
