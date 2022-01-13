@@ -1,7 +1,8 @@
-import React, {useState, KeyboardEvent, ChangeEvent} from "react";
+import React from "react";
 import {FilterType} from "./App";
 import cl from './ToDoList.module.css'
 import {MapTasks} from "./MapTasks";
+import {InputAddTask} from "./InputAddTask";
 
 type PropsType = {
     id:string
@@ -23,30 +24,8 @@ export type inPropsType = {
 
 export const ToDoList:React.FC<PropsType> = (props) => {
 
-    const [title, setTitle] = useState('')
-    const [error, setError] = useState('')
-
-
-    const onChangeHandlerInput = (event:ChangeEvent<HTMLInputElement>) => {
-        setError('')
-        setTitle(event.currentTarget.value)
-    }
-
-    const onClickHandlerAddButton = () => {
-        if (title.trim() !== '') {
-            props.addTask(props.id, title)
-            setTitle('')
-        } else {
-            setError('Вы ничего не ввели')
-        }
-    }
     const onClickHandlerFilterButton = (todoListID:string,value: FilterType) => props.filterTask(todoListID ,value)
-    const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-        // setError('')
-        if (event.key === 'Enter') {
-            onClickHandlerAddButton()
-        }
-    }
+
     const onClickHandlerDeleteButton = (idTasks:string,tID: string) => {
         props.deleteTask(idTasks,tID)
     }
@@ -64,15 +43,9 @@ export const ToDoList:React.FC<PropsType> = (props) => {
                 {props.title}
                 <button onClick={onClickHandlerDeleteToDoList}>x</button>
             </h3>
-            <div>
-                <input value={title}
-                       onChange={onChangeHandlerInput}
-                       onKeyPress={onKeyPressHandler}
-                       className={error ? cl.error : ''}
-                />
-                <button onClick={onClickHandlerAddButton}>+</button>
-                {error && <div className={cl.errorMessage}>{error}</div>}
-            </div>
+            <InputAddTask id={props.id}
+                          addTask={props.addTask}
+            />
             <MapTasks tasks={props.tasks}
                       idTasks={props.id}
                       onClickHandlerDeleteButton={onClickHandlerDeleteButton}
@@ -92,3 +65,4 @@ export const ToDoList:React.FC<PropsType> = (props) => {
         </div>
     )
 }
+
