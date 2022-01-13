@@ -4,8 +4,9 @@ import {inPropsType} from "./ToDoList";
 
 type PropsType={
     tasks:inPropsType[]
-    onClickHandlerDeleteButton:(id:string)=>void
-    onChangeHandlerInputStatus:(id:string, event:boolean)=>void
+    idTasks:string
+    onClickHandlerDeleteButton:(idTasks:string,id:string)=>void
+    onChangeHandlerInputStatus:(todoListID: string, id:string, event:boolean)=>void
 
 }
 
@@ -15,9 +16,9 @@ export const MapTasks=(props:PropsType)=>{
             {props.tasks.map(t=>{
                 return(
                     <li key={t.id} className={t.isDone? cl.isDone : ''}>
-                        <button onClick={()=>props.onClickHandlerDeleteButton(t.id)}>x</button>
+                        <button onClick={()=>props.onClickHandlerDeleteButton(props.idTasks, t.id)}>x</button>
                         <input type="checkbox" checked={t.isDone}
-                               onChange={(event)=>props.onChangeHandlerInputStatus(t.id, event.currentTarget.checked)} />
+                               onChange={(event)=>props.onChangeHandlerInputStatus(props.idTasks, t.id, event.currentTarget.checked)} />
                         <span>{t.title}</span></li>
                 )
             })}
