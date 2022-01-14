@@ -3,6 +3,7 @@ import {FilterType} from "./App";
 import cl from './ToDoList.module.css'
 import {MapTasks} from "./MapTasks";
 import {InputAddTask} from "./InputAddTask";
+import {EditableSpan} from "./EditableSpan";
 
 type PropsType = {
     id:string
@@ -15,6 +16,7 @@ type PropsType = {
     checkedBoxStatus: (todoListID: string, id: string, value: boolean) => void
     deleteToDoList:(todoListID: string)=>void
     updateTasks:(todoListID: string, id:string,title:string)=>void
+    updateTodoList:(todoListID: string,title:string)=>void
 }
 
 export type inPropsType = {
@@ -39,25 +41,26 @@ export const ToDoList:React.FC<PropsType> = (props) => {
     const collBackHandler = (title:string) => {
         props.addTask(props.id, title)
     }
-    const updateTaskHandler = (id:string,title:string) => {
+    const updateTaskHandlerTask = (id:string,title:string) => {
         props.updateTasks(props.id,id,title)
     }
-
+    const updateTaskHandlerTodoList = (title:string) => {
+        props.updateTodoList(props.id,title)
+    }
 
 
     return (
         <div>
             <h3>
-                {props.title}
                 <button onClick={onClickHandlerDeleteToDoList}>x</button>
+                <EditableSpan title={props.title} callBack={updateTaskHandlerTodoList}/>
             </h3>
             <InputAddTask callBack={collBackHandler} />
             <MapTasks tasks={props.tasks}
                       idTasks={props.id}
                       onClickHandlerDeleteButton={onClickHandlerDeleteButton}
                       onChangeHandlerInputStatus={onChangeHandlerInputStatus}
-                      updateTask={updateTaskHandler}
-
+                      updateTask={updateTaskHandlerTask}
             />
             <div>
                 <button className={props.filter === 'All' ? cl.activeFilterButton : ''}

@@ -68,6 +68,9 @@ function App() {
     const updateTasks = (todoListID: string, id: string, title: string) => {
         setTask({...task, [todoListID]: task[todoListID].map(m => m.id === id ? {...m, title} : m)})
     }
+    const updateTodoList = (todoListID: string, title: string) => {
+        setTodoList(todoList.map(m=>m.id===todoListID? {...m, title}: m))
+    }
 
         return (
             <div>
@@ -92,6 +95,7 @@ function App() {
                                       checkedBoxStatus={checkedBoxStatus}
                                       deleteToDoList={deleteToDoList}
                                       updateTasks={updateTasks}
+                                      updateTodoList={updateTodoList}
                             />
                         )
                     })}
