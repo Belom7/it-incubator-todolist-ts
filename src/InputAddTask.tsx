@@ -2,8 +2,7 @@ import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import cl from "./ToDoList.module.css";
 
 type InputAddTaskPropsType = {
-    id: string
-    addTask: (todoListID: string, title: string) => void
+    callBack: (title: string) => void
 }
 export const InputAddTask = (props: InputAddTaskPropsType) => {
 
@@ -16,7 +15,7 @@ export const InputAddTask = (props: InputAddTaskPropsType) => {
     }
     const onClickHandlerAddButton = () => {
         if (title.trim() !== '') {
-            props.addTask(props.id, title)
+            props.callBack(title)
             setTitle('')
         } else {
             setError('Вы ничего не ввели')

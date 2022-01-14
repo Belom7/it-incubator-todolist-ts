@@ -35,6 +35,9 @@ export const ToDoList:React.FC<PropsType> = (props) => {
     const onClickHandlerDeleteToDoList = () => {
         props.deleteToDoList(props.id)
     }
+    const collBackHandler = (title:string) => {
+        props.addTask(props.id, title)
+    }
 
 
     return (
@@ -43,9 +46,7 @@ export const ToDoList:React.FC<PropsType> = (props) => {
                 {props.title}
                 <button onClick={onClickHandlerDeleteToDoList}>x</button>
             </h3>
-            <InputAddTask id={props.id}
-                          addTask={props.addTask}
-            />
+            <InputAddTask callBack={collBackHandler}/>
             <MapTasks tasks={props.tasks}
                       idTasks={props.id}
                       onClickHandlerDeleteButton={onClickHandlerDeleteButton}
