@@ -1,16 +1,22 @@
 import cl from "./ToDoList.module.css";
 import React from "react";
 import {inPropsType} from "./ToDoList";
+import {EditableSpan} from "./EditableSpan";
 
 type PropsType={
     tasks:inPropsType[]
     idTasks:string
     onClickHandlerDeleteButton:(idTasks:string,id:string)=>void
     onChangeHandlerInputStatus:(todoListID: string, id:string, event:boolean)=>void
-
+    updateTask:(id:string,title:string)=>void
 }
 
 export const MapTasks=(props:PropsType)=>{
+
+    const callBackHandler =(id:string, title:string) => {
+        props.updateTask(id,title)
+    }
+
     return(
         <ul>
             {props.tasks.map(t=>{
@@ -19,7 +25,8 @@ export const MapTasks=(props:PropsType)=>{
                         <button onClick={()=>props.onClickHandlerDeleteButton(props.idTasks, t.id)}>x</button>
                         <input type="checkbox" checked={t.isDone}
                                onChange={(event)=>props.onChangeHandlerInputStatus(props.idTasks, t.id, event.currentTarget.checked)} />
-                        <span>{t.title}</span></li>
+                        <EditableSpan title={t.title} callBack={(title)=>callBackHandler(t.id, title)}/>
+                    </li>
                 )
             })}
         </ul>

@@ -14,6 +14,7 @@ type PropsType = {
     filter: string
     checkedBoxStatus: (todoListID: string, id: string, value: boolean) => void
     deleteToDoList:(todoListID: string)=>void
+    updateTasks:(todoListID: string, id:string,title:string)=>void
 }
 
 export type inPropsType = {
@@ -38,6 +39,10 @@ export const ToDoList:React.FC<PropsType> = (props) => {
     const collBackHandler = (title:string) => {
         props.addTask(props.id, title)
     }
+    const updateTaskHandler = (id:string,title:string) => {
+        props.updateTasks(props.id,id,title)
+    }
+
 
 
     return (
@@ -46,11 +51,13 @@ export const ToDoList:React.FC<PropsType> = (props) => {
                 {props.title}
                 <button onClick={onClickHandlerDeleteToDoList}>x</button>
             </h3>
-            <InputAddTask callBack={collBackHandler}/>
+            <InputAddTask callBack={collBackHandler} />
             <MapTasks tasks={props.tasks}
                       idTasks={props.id}
                       onClickHandlerDeleteButton={onClickHandlerDeleteButton}
                       onChangeHandlerInputStatus={onChangeHandlerInputStatus}
+                      updateTask={updateTaskHandler}
+
             />
             <div>
                 <button className={props.filter === 'All' ? cl.activeFilterButton : ''}
