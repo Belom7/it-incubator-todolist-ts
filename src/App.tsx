@@ -59,42 +59,47 @@ function App() {
     }
     const addTodoListHandler = (title: string) => {
         let newID = v1()
-        let newTodoList:TodoListType = {id: newID, title:title, filter: 'All' }
+        let newTodoList: TodoListType = {id: newID, title: title, filter: 'All'}
 
-        setTodoList([newTodoList,...todoList])
-        setTask({[newID]:[],...task})
+        setTodoList([newTodoList, ...todoList])
+        setTask({[newID]: [], ...task})
     }
 
-    return (
-        <div>
-            <div className={cl.AppInput}>
-                <InputAddTask callBack={addTodoListHandler}/>
+    const updateTasks = (todoListID: string, id: string, title: string) => {
+        setTask({...task, [todoListID]: task[todoListID].map(m => m.id === id ? {...m, title} : m)})
+    }
+
+        return (
+            <div>
+                <div className={cl.AppInput}>
+                    <InputAddTask callBack={addTodoListHandler}/>
+                </div>
+
+                <div className={cl.App}>
+                    {todoList.map(m => {
+                        let filterTasks = m.filter === 'Active' ? task[m.id].filter(f => f.isDone) :
+                            m.filter === 'Completed' ? task[m.id].filter(f => !f.isDone) :
+                                task[m.id]
+                        return (
+                            <ToDoList key={m.id}
+                                      id={m.id}
+                                      title={m.title}
+                                      tasks={filterTasks}
+                                      deleteTask={deleteTask}
+                                      filterTask={filterTask}
+                                      addTask={addTask}
+                                      filter={m.filter}
+                                      checkedBoxStatus={checkedBoxStatus}
+                                      deleteToDoList={deleteToDoList}
+                                      updateTasks={updateTasks}
+                            />
+                        )
+                    })}
+
+                </div>
             </div>
+        );
+    }
 
-            <div className={cl.App}>
-                {todoList.map(m => {
-                    let filterTasks = m.filter === 'Active' ? task[m.id].filter(f => f.isDone) :
-                        m.filter === 'Completed' ? task[m.id].filter(f => !f.isDone) :
-                            task[m.id]
-                    return (
-                        <ToDoList key={m.id}
-                                  id={m.id}
-                                  title={m.title}
-                                  tasks={filterTasks}
-                                  deleteTask={deleteTask}
-                                  filterTask={filterTask}
-                                  addTask={addTask}
-                                  filter={m.filter}
-                                  checkedBoxStatus={checkedBoxStatus}
-                                  deleteToDoList={deleteToDoList}
-                        />
-                    )
-                })}
-
-            </div>
-        </div>
-    );
-}
-
-export default App;
+    export default App;
 
