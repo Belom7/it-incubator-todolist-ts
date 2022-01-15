@@ -22,7 +22,6 @@ export const InputAddTask = (props: InputAddTaskPropsType) => {
         }
     }
     const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-        // setError('')
         if (event.key === 'Enter') {
             onClickHandlerAddButton()
         }
