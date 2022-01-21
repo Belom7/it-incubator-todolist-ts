@@ -2,6 +2,8 @@ import cl from "./ToDoList.module.css";
 import React from "react";
 import {inPropsType} from "./ToDoList";
 import {EditableSpan} from "./EditableSpan";
+import {Delete} from "@material-ui/icons";
+import {IconButton} from "@material-ui/core";
 
 type PropsType={
     tasks:inPropsType[]
@@ -17,15 +19,20 @@ export const MapTasks=(props:PropsType)=>{
         props.updateTask(id,title)
     }
 
+    const onClickHandler = (taskID:string) => {
+        props.onClickHandlerDeleteButton(props.idTasks, taskID)
+    }
+
     return(
         <ul>
             {props.tasks.map(t=>{
                 return(
                     <li key={t.id} className={t.isDone? cl.isDone : ''}>
-                        <button onClick={()=>props.onClickHandlerDeleteButton(props.idTasks, t.id)}>x</button>
+                        {/*<button onClick={()=>onClickHandler(t.id)}>x</button>*/}
                         <input type="checkbox" checked={t.isDone}
                                onChange={(event)=>props.onChangeHandlerInputStatus(props.idTasks, t.id, event.currentTarget.checked)} />
                         <EditableSpan title={t.title} callBack={(title)=>callBackHandler(t.id, title)}/>
+                        <IconButton onClick={()=>onClickHandler(t.id)}><Delete/></IconButton>
                     </li>
                 )
             })}

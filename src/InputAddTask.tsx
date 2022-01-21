@@ -1,3 +1,4 @@
+import {Button, TextField} from "@material-ui/core";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import cl from "./ToDoList.module.css";
 
@@ -29,13 +30,25 @@ export const InputAddTask = (props: InputAddTaskPropsType) => {
 
     return (
         <div>
-            <input value={title}
-                   onChange={onChangeHandlerInput}
-                   onKeyPress={onKeyPressHandler}
-                   className={error ? cl.error : ''}
+            {/*<input value={title}*/}
+            {/*       onChange={onChangeHandlerInput}*/}
+            {/*       onKeyPress={onKeyPressHandler}*/}
+            {/*       className={error ? cl.error : ''}*/}
+            {/*/>*/}
+            <TextField variant={'outlined'}
+                       size={"small"}
+                       value={title}
+                       onChange={onChangeHandlerInput}
+                       onKeyPress={onKeyPressHandler}
+                       error={!!error}
+                       label={'Введите значение'}
+                       helperText={error}
+
             />
-            <button onClick={onClickHandlerAddButton}>+</button>
-            {error && <div className={cl.errorMessage}>{error}</div>}
+
+            {/*<button onClick={onClickHandlerAddButton}>+</button>*/}
+            {/*{error && <div className={cl.errorMessage}>{error}</div>}*/}
+            <Button variant={'contained'} color={'primary'} onClick={onClickHandlerAddButton}>+</Button>
         </div>
     )
 }
