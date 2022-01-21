@@ -1,6 +1,5 @@
 import React from "react";
 import {FilterType} from "./App";
-import cl from './ToDoList.module.css'
 import {MapTasks} from "./MapTasks";
 import {InputAddTask} from "./InputAddTask";
 import {EditableSpan} from "./EditableSpan";
