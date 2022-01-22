@@ -1,6 +1,6 @@
-import {Button, TextField} from "@material-ui/core";
+import { IconButton, TextField} from "@material-ui/core";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import cl from "./ToDoList.module.css";
+import {AddBox} from "@material-ui/icons";
 
 type InputAddTaskPropsType = {
     callBack: (title: string) => void
@@ -48,7 +48,12 @@ export const InputAddTask = (props: InputAddTaskPropsType) => {
 
             {/*<button onClick={onClickHandlerAddButton}>+</button>*/}
             {/*{error && <div className={cl.errorMessage}>{error}</div>}*/}
-            <Button variant={'contained'} color={'primary'} onClick={onClickHandlerAddButton}>+</Button>
+
+            {/*<Button variant={'contained'} color={'primary'} onClick={onClickHandlerAddButton}>+</Button>*/}
+
+            <IconButton color={'primary'} onClick={onClickHandlerAddButton}>
+                <AddBox/>
+            </IconButton>
         </div>
     )
 }

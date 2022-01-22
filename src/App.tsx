@@ -26,7 +26,7 @@ function App() {
     let [task, setTask] = useState({
         [todoListID1]: [
             {id: v1(), title: "HTML-1", isDone: true},
-            {id: v1(), title: "CSS2-", isDone: true},
+            {id: v1(), title: "CSS-2", isDone: true},
             {id: v1(), title: "JS-3", isDone: true},
             {id: v1(), title: "React-4", isDone: false},
             {id: v1(), title: "Redux-5", isDone: false},
